@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Демо</title>
+	<link rel="stylesheet" href="https://remarked.ru/widget/new/points/270400/custom/fonts/GrtskPeta/stylesheet.css">
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+			background-image: url(https://remarked.ru/widget/new/points/270400/custom/birch_bg.png);
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			font-family: "Jost", sans-serif;
+			background-color: #050604;
+		}
+		.defaultReMarkedOpen {
+			background-color: #1B2431;
+			color: #fff;
+			padding: 15px 30px;
+			/* border-radius: 50px; */
+			outline: 0;
+			border: 0;
+			font-size: 24px;
+			text-transform: uppercase;
+			cursor: pointer;
+		}
+
+		.logo {
+			padding: 40px;
+			display: flex;
+			justify-content: center;
+			cursor: pointer;
+		}
+
+		.content {
+			margin: 220px auto;
+			text-align: center;
+			color: #fff;
+			max-width: 670px;
+			padding: 20px;
+		}
+
+		.content h1 {
+			font-weight: 400;
+			font-size: 30px;
+			line-height: 44px;
+			letter-spacing: 1px;
+			text-transform: uppercase;
+			margin-bottom: 45px;
+		}
+
+		.content p {
+			font-weight: 200;
+			font-size: 18px;
+			line-height: 32px;
+			margin-bottom: 25px;
+			font-family: 'Grtsk Peta', sans-serif;
+		}
+
+		.booking__button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: 200px;
+			font-family: 'Grtsk Peta', sans-serif;
+			font-size: 20px;
+			text-transform: uppercase;
+			color: #fff;
+			text-decoration: none;
+		}
+
+		.booking__button svg {
+			margin-left: 10px;
+			transition: all .3s ease;
+		}
+
+		.booking__button:hover svg {
+			margin-left: 15px;
+		}
+	</style>
+</head>
+<body>
+	<div class="logo">
+		<svg width="136" height="28" viewBox="0 0 136 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M45.5161 1.54359C45.0713 1.72022 44.6798 2.06563 44.3977 2.49936C43.95 3.21322 43.9682 4.2573 44.4384 4.95142C44.9976 5.80546 45.9979 6.12354 46.8829 5.93021C47.9188 5.73081 48.8994 4.57412 48.6502 3.29242C48.3599 1.75211 46.7255 1.00333 45.5161 1.54359Z"
+				fill="white" />
+			<path
+				d="M56.2222 13.9019C53.0284 17.3993 50.7861 22.6035 50.7861 27.479H54.2463C54.2463 23.5539 56.1047 19.1623 58.7775 16.2352C61.9155 12.7988 67.0613 10.8584 71.1291 10.8584V7.39796C66.1893 7.39796 60.0802 9.67668 56.2222 13.9019Z"
+				fill="white" />
+			<path
+				d="M35.5852 21.5849C34.4877 23.2105 32.6232 24.2042 30.7008 24.4479C28.3798 24.7523 25.8106 24.3247 24.0403 22.6915C21.9734 20.7964 21.5275 17.591 22.4802 15.0354C23.3829 12.6778 25.783 11.1162 28.2579 10.9183C30.3144 10.7007 32.5364 11.0583 34.1939 12.3688C35.5288 13.3413 36.3752 14.9001 36.5989 16.5241C36.8408 18.256 36.5746 20.1132 35.5852 21.5849ZM36.3006 9.34891C32.0493 6.25461 25.4956 6.91077 22.0007 10.8664C22.0007 7.27137 22.0022 3.67628 22.0007 0.0812035C20.8349 0.0812035 19.6676 0.0796852 18.5 0.0827217C18.5015 9.21353 18.5015 18.3458 18.5 27.4784H22.0007C22.0022 26.4966 21.9992 25.515 22.0037 24.5332C24.8045 27.8238 29.7542 28.7933 33.7435 27.3443C35.7084 26.571 37.5899 25.3338 38.7086 23.5012C40.1682 21.1663 40.5624 18.2775 40.0844 15.5894C39.7114 13.1161 38.2473 10.8832 36.3006 9.34891Z"
+				fill="white" />
+			<path
+				d="M118.5 27.4784C118.49 23.9884 118.498 20.4601 118.497 16.9715C118.507 15.5393 118.452 14.0797 117.985 12.713C117.44 10.9748 116.151 9.53946 114.586 8.64138C112.822 7.60641 110.725 7.27162 108.704 7.37664C105.704 7.55605 102.708 8.99135 100.97 11.4953C100.976 7.69017 100.972 3.88657 100.973 0.0812035C99.7994 0.0812035 98.626 0.0812035 97.4524 0.0827217C97.4542 9.21378 97.4542 18.3461 97.4524 27.4769C98.626 27.4784 99.7994 27.4784 100.973 27.4784C100.981 24.6536 100.958 21.8286 100.985 19.005C101.02 16.7858 101.766 14.4724 103.454 12.9579C104.79 11.7083 106.556 10.8728 108.404 10.8285C110.098 10.7723 111.941 11.0858 113.23 12.2729C114.579 13.5516 114.973 15.4952 114.988 17.2835C115.003 20.681 114.991 24.0797 114.994 27.4784C116.163 27.4663 117.331 27.4906 118.5 27.4784Z"
+				fill="white" />
+			<path
+				d="M44.6304 27.4752C45.7979 27.4813 46.9653 27.4768 48.1328 27.4783V7.91979H44.6321C44.6304 14.4389 44.6349 20.9577 44.6304 27.4752Z"
+				fill="white" />
+			<path
+				d="M78.1341 12.9563C79.435 11.7581 81.1535 11.0625 82.9119 10.8972C83.7002 10.8233 84.9072 10.9428 85.3926 11.045C85.3997 11.0463 85.4068 11.0473 85.4138 11.0486C86.1181 11.189 86.8051 11.4248 87.4443 11.7503C88.019 12.0643 88.5732 12.4229 89.0489 12.8644C89.0613 12.8756 89.0729 12.8872 89.0851 12.8986C89.3642 13.1623 89.6157 13.4546 89.827 13.7853C90.1097 14.2112 90.3278 14.6813 90.4893 15.1755H94.2471C93.9988 13.8551 93.5099 12.6023 92.6718 11.5466C92.6205 11.4818 92.5719 11.4276 92.5306 11.3816C90.4718 8.78654 87.0976 7.44968 83.8358 7.40236C83.642 7.39679 83.4484 7.39603 83.2548 7.40033C80.3536 7.46461 77.4845 8.63243 75.3723 10.626C73.6602 12.2652 72.8446 14.652 72.7408 16.9821C72.5994 19.4647 73.1746 22.0917 74.8201 24.0171C76.4533 26.2027 79.0605 27.5224 81.7423 27.845C82.4068 27.9543 83.0792 28.0049 83.7505 27.9996C85.7651 27.9837 87.7735 27.4632 89.5464 26.5041C90.9857 25.7578 92.19 24.6001 93.0592 23.2367C93.077 23.2089 93.1891 23.0279 93.2171 22.9776C93.6979 22.122 94.0208 21.1769 94.2142 20.2069H90.5447C90.4554 20.5326 90.3387 20.8477 90.1836 21.1389C89.906 21.6503 89.2106 22.4515 89.0241 22.6122C87.5111 23.9151 85.5313 24.584 83.5438 24.5536C82.3514 24.5354 81.1631 24.2727 80.0899 23.7661C79.0274 23.2225 77.9924 22.5239 77.3395 21.501C76.4354 20.1389 76.195 18.4343 76.3549 16.8345C76.487 15.3932 77.0579 13.9503 78.1341 12.9563Z"
+				fill="white" />
+		</svg>
+	</div>
+	<div class="content">
+		<h1>Бронирование</h1>
+		<p>Бронирование открывается ежедневно в 14:00 на одну дату с шагом в 30 календарных дней.</p>
+		<p>Продолжительность дегустационного сета рассчитана на 2.5 часа</p>
+		<a href="#booking" class="booking__button">
+			Забронировать
+			<svg width="26" height="12" viewBox="0 0 26 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path
+					d="M25.5303 6.53033C25.8232 6.23743 25.8232 5.76256 25.5303 5.46967L20.7574 0.696697C20.4645 0.403804 19.9896 0.403804 19.6967 0.696697C19.4038 0.989591 19.4038 1.46446 19.6967 1.75736L23.9393 6L19.6967 10.2426C19.4038 10.5355 19.4038 11.0104 19.6967 11.3033C19.9896 11.5962 20.4645 11.5962 20.7574 11.3033L25.5303 6.53033ZM6.55671e-08 6.75L25 6.75L25 5.25L-6.55671e-08 5.25L6.55671e-08 6.75Z"
+					fill="white" />
+			</svg>
+		</a>
+	</div>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", (event) => {
+			const widgetReMarked = WidgetReMarked('.booking__button', {
+				token: '34528672702bceaafb486d65e1575b29',
+				//language: 'en',
+				// textContent: {
+				// 	headTitle: 'Reserve',
+				// 	textNoticeGroup: 'We accommodate companies of 8 guests in a hall with an open kitchen under the conditions of the group level. To clarify the conditions, leave a request, and we will contact you on the day of training in WhatsApp',
+				// 	labelGuestCount: 'Number of guests',
+				// 	labelDate: 'Date',
+				// 	labelRoomsTime: 'Selecting a hall and time',
+				// 	placeholderName: 'Name',
+				// 	placeholderSurname: 'Surname',
+				// 	placeholderPhone: 'Phone',
+				// 	placeholderEmail: 'E-mail',
+				// 	placeholderGuestCount: 'Number of guests',
+				// 	labelTextPolicy: 'I agree with the <a href="#" target="_blank">privacy policy</a> and our terms',
+				// 	textNoticeReserve: 'By filling out the booking form you confirm your agreement with our rules',
+				// 	textNoticeReserve1: 'Booking is based on a prepayment of 6,500 ₽ for each guest.',
+				// 	textNoticeReserve2: 'In case of cancellation of the booking later than 3 days before the date of the visit, the prepayment is not refundable.',
+				// 	textNoticeReserve3: 'We serve the tasting menu according to the number of guests in the reservation.',
+				// 	textNoticeReserve4: 'We do not recommend bringing children under 7 years old due to the length and nature of the tasting menu.',
+				// 	textNoticeReserve5: 'Visiting the restaurant with animals is not allowed',
+				// 	textNoticeReserve6: 'Continue filling out the application and we will contact you on WhatsApp within a day to confirm your reservation.',
+				// 	textNoticeReserve7: 'All places on the date you selected are booked. Check availability in our other project',
+				// 	buttonTextContinue: 'Continue',
+				// 	buttonTextReserveWaitingList: 'Join the waiting list',
+				// 	buttonTextSendReserve: 'Submit request',
+				// 	buttonTextReserve: 'Reserve',
+				// 	buttonTextClose: 'Close',
+				// 	textError: 'Error contact the restaurant',
+				// 	messageSuccess1: 'Thank you for your application, during the day the manager will contact you to clarify the details',
+				// 	messageSuccess2: 'Thank you! We have made a preliminary reservation and will contact you on WhatsApp during the day to confirm the reservation.',
+				// 	messageSuccess3: 'Thank you! We will contact you if there are any vacancies the day before the desired date.',
+				// 	messageErrorTitle: 'Error',
+				// 	messageErrorText: 'Please try again or contact the restaurant.',
+				// 	selectTime: 'Select time',
+				// 	errorSlot: 'The time you selected is not available, please select another one',
+				// 	comonTable: 'Common table',
+				// 	room_name_3309: 'Hall with open kitchen',
+				// 	room_name_411484: 'Main hall',
+				// },
+				// weekShortNames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+				// weekNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+				// monthsNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+				// monthsCursiveNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+			});
+		});
+		
+	</script>
+
+</body>
+</html>
