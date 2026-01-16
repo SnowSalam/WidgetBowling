@@ -107,8 +107,6 @@
 	</div>
 	<div class="content">
 		<h1>Бронирование</h1>
-		<p>Бронирование открывается ежедневно в 14:00 на одну дату с шагом в 30 календарных дней.</p>
-		<p>Продолжительность дегустационного сета рассчитана на 2.5 часа</p>
 		<a href="#booking" class="booking__button">
 			Забронировать
 			<svg width="26" height="12" viewBox="0 0 26 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -121,50 +119,10 @@
 
 	<script>
 		document.addEventListener("DOMContentLoaded", (event) => {
-			const widgetReMarked = WidgetReMarked('.booking__button', {
-				token: '34528672702bceaafb486d65e1575b29',
-				//language: 'en',
-				// textContent: {
-				// 	headTitle: 'Reserve',
-				// 	textNoticeGroup: 'We accommodate companies of 8 guests in a hall with an open kitchen under the conditions of the group level. To clarify the conditions, leave a request, and we will contact you on the day of training in WhatsApp',
-				// 	labelGuestCount: 'Number of guests',
-				// 	labelDate: 'Date',
-				// 	labelRoomsTime: 'Selecting a hall and time',
-				// 	placeholderName: 'Name',
-				// 	placeholderSurname: 'Surname',
-				// 	placeholderPhone: 'Phone',
-				// 	placeholderEmail: 'E-mail',
-				// 	placeholderGuestCount: 'Number of guests',
-				// 	labelTextPolicy: 'I agree with the <a href="#" target="_blank">privacy policy</a> and our terms',
-				// 	textNoticeReserve: 'By filling out the booking form you confirm your agreement with our rules',
-				// 	textNoticeReserve1: 'Booking is based on a prepayment of 6,500 ₽ for each guest.',
-				// 	textNoticeReserve2: 'In case of cancellation of the booking later than 3 days before the date of the visit, the prepayment is not refundable.',
-				// 	textNoticeReserve3: 'We serve the tasting menu according to the number of guests in the reservation.',
-				// 	textNoticeReserve4: 'We do not recommend bringing children under 7 years old due to the length and nature of the tasting menu.',
-				// 	textNoticeReserve5: 'Visiting the restaurant with animals is not allowed',
-				// 	textNoticeReserve6: 'Continue filling out the application and we will contact you on WhatsApp within a day to confirm your reservation.',
-				// 	textNoticeReserve7: 'All places on the date you selected are booked. Check availability in our other project',
-				// 	buttonTextContinue: 'Continue',
-				// 	buttonTextReserveWaitingList: 'Join the waiting list',
-				// 	buttonTextSendReserve: 'Submit request',
-				// 	buttonTextReserve: 'Reserve',
-				// 	buttonTextClose: 'Close',
-				// 	textError: 'Error contact the restaurant',
-				// 	messageSuccess1: 'Thank you for your application, during the day the manager will contact you to clarify the details',
-				// 	messageSuccess2: 'Thank you! We have made a preliminary reservation and will contact you on WhatsApp during the day to confirm the reservation.',
-				// 	messageSuccess3: 'Thank you! We will contact you if there are any vacancies the day before the desired date.',
-				// 	messageErrorTitle: 'Error',
-				// 	messageErrorText: 'Please try again or contact the restaurant.',
-				// 	selectTime: 'Select time',
-				// 	errorSlot: 'The time you selected is not available, please select another one',
-				// 	comonTable: 'Common table',
-				// 	room_name_3309: 'Hall with open kitchen',
-				// 	room_name_411484: 'Main hall',
-				// },
-				// weekShortNames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-				// weekNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-				// monthsNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-				// monthsCursiveNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+			const widgetReMarked = WidgetReMarked({
+				booking: [ { point: 7999999 } ],
+				button: '.booking__button',
+				showDisabledTime: true,
 			});
 		});
 		

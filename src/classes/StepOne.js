@@ -3,24 +3,24 @@ import { transform } from "terser-webpack-plugin/types/minify";
 import { dateReplacer, qtyMinus, qtyPlus, normalizeQty } from "./utilities";
 
 export default class StepOne { // получить api
-    constuctor(stepOneWrap, rooms) {
+    constuctor(stepOneWrap, api) {
         this.stepWrap = stepOneWrap;
-        this.rooms = rooms;
+        this.api = api;
 
         this.datepickerOptions = {
             formatter: (input, date, instance) => {
-            let value = date;
-            let d = value.getDate();
-            let m = value.getMonth();
-            m++;
-            let yyyy = value.getFullYear();
-            if (d < 10) {
-                d = '0' + d;
-            }
-            if (m < 10) {
-                m = '0' + m;
-            }
-            input.value = d + '-' + m + '-' + yyyy; // => '1-1-2099'
+                let value = date;
+                let d = value.getDate();
+                let m = value.getMonth();
+                m++;
+                let yyyy = value.getFullYear();
+                if (d < 10) {
+                    d = '0' + d;
+                }
+                if (m < 10) {
+                    m = '0' + m;
+                }
+                input.value = d + '-' + m + '-' + yyyy; // => '01-01-2099'
             },
             overlayButton: overlayButtonText,
             overlayPlaceholder: overlayPlaceholderText,
@@ -37,14 +37,19 @@ export default class StepOne { // получить api
                     getTimes(); // доделать
                 } else {
                     if (this.stepWrap.querySelector('.remarked-primary-widget__times--active')) {
-                        this.stepWrap.querySelector('.remarked-primary-widget__times--active').classList.remove('remarked-primary-widget__times--active');
+                        let activeTimes = this.stepWrap.querySelectorAll('.remarked-primary-widget__times--active');
+
+                        activeTimes.forEach(time => time.classList.remove('remarked-primary-widget__times--active'));
                     }
                 }
                 options.changeDateCalendar(this.stepWrap, date, options);
             },
             disabler: options.customDisabledDate ? options.customDisabledDate : date => options.disableWeekDay.includes(date.getDay()),
+            // disabledDates: что-то с getFreeDays. сделать getFreeDays static, поставить в функцию prepareDisabledDates
         };
     }
+
+    updateCalendar() {}
 
     renderStepOne() {
 
