@@ -97,7 +97,10 @@ export default class WidgetArea {
             lanesWithBumperCanType: rawOptions.lanesWithBumperCanType ? rawOptions.lanesWithBumperCanType : false,
             disableWeekDay: rawOptions.disableWeekDay ? rawOptions.disableWeekDay : [],
             policy: 'Я даю <a href="#">Согласие</a> на обработку моих персональных данных в соответствии с <a href="#">Политикой</a>',
-            agreement: 'Я принимаю условия <a href="#">Договора оферты</a>'
+            agreement: 'Я принимаю условия <a href="#">Договора оферты</a>',
+            guestCountCanType: rawOptions.guestCountCanType ? rawOptions.guestCountCanType : false, // назвать параметр по-другому
+            lanesCountCanType: rawOptions.lanesCountCanType ? rawOptions.lanesCountCanType : false,
+            lanesWithBumperCanType: rawOptions.lanesWithBumperCanType ? rawOptions.lanesWithBumperCanType : false,
         };
 
         return options; // проверить, нужна ли ещё обработка

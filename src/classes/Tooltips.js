@@ -14,7 +14,6 @@ export class Tooltips {
         const rect = target.getBoundingClientRect();
 
         const top = rect.top - this.tooltip.offsetHeight - 8;
-
         const left = rect.left + rect.width / 2 - this.tooltip.offsetWidth / 2;
 
         this.tooltip.style.top = `${top}px`;
@@ -26,5 +25,9 @@ export class Tooltips {
         this.tooltip._timer = setTimeout(() => {
             this.tooltip.classList.remove('show');
         }, this.tooltipTimeout);
+    }
+
+    static showQtyWarning(target, targetName, action) {
+
     }
 }

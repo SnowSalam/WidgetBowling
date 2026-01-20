@@ -1,6 +1,7 @@
 import phoneCodeSelect from "./PhoneCodeSelect";
 import { dateReplacer } from "./utilities";
 import I18n from "./I18n";
+import State from "./State";
 
 export default class StepTwo {
     constructor(stepTwoContainer, options, api) {
@@ -172,6 +173,29 @@ export default class StepTwo {
         `;
 
         this.container.insertAdjacentHTML('beforeend', submitButton);
+    }
+
+    finishFieldsAndBlocks() {
+        this.fillReserveData();
+        // this.toggleEmailBlock();
+        // this.toggleAgreementCheckbox();
+        // this.toggleSubmitButtonText();
+    }
+
+    fillReserveData() {
+        const dateField = this.container.querySelector('#remarked-primary-widget__reserve-info-date');
+        const startTimeField = this.container.querySelector('#remarked-primary-widget__reserve-info-starttime');
+        const endTimeField = this.container.querySelector('#remarked-primary-widget__reserve-info-endtime');
+        const durationField = this.container.querySelector('#remarked-primary-widget__reserve-info-duration');
+        const guestsCountField = this.container.querySelector('#remarked-primary-widget__reserve-info-guests-count');
+        const lanesCountField = this.container.querySelector('#remarked-primary-widget__reserve-info-lanes-count');
+
+        if (State.dateSelected) {
+            let selectedDay = String(State.dateSelected.getDate());
+            let selectedMonth = I18n.t('ru-RU', 'monthsCursiveArr')[State.dateSelected.getMonth()];
+            
+            dateField.innerText = selectedDay + ' ' + selectedMonth;
+        }
     }
 
 }

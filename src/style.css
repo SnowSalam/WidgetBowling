@@ -1,6 +1,5 @@
 @import '~js-datepicker/dist/datepicker.min.css';
 @import "~nice-select2/dist/css/nice-select2.css";
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 @import "~intl-tel-input/build/css/intlTelInput.css";
 
 * {
@@ -16,6 +15,9 @@
 
 .iti__selected-dial-code {
     font-size: 14px;
+}
+.remarked-primary-widget__error-text {
+    color: #E30613;
 }
 
 .remarked-primary-widget__wrap {
@@ -115,7 +117,8 @@
     display: block;
 }
 
-.remarked-primary-widget input {
+.remarked-primary-widget input[type="text"],
+.remarked-primary-widget input[type="number"] {
     border: 1px solid #C9C9C9;
     border-radius: 5px;
     height: 45px;
@@ -224,6 +227,98 @@
   transition: all .3s ease
 }
 
+.remarked-primary-widget__checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+.remarked-primary-widget__wish-checkboxes input {
+    display: none;
+}
+.remarked-primary-widget__checkbox-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #E30613;
+    border-radius: 4px;
+    flex-shrink: 0;
+    position: relative;
+}
+.remarked-primary-widget__checkbox-box::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 9px;
+    border: solid #E30613;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+
+    top: 2px;
+    left: 7px;
+
+    opacity: 0;
+}
+.remarked-primary-widget__wish-checkbox-wrap input:checked + .remarked-primary-widget__checkbox-box::after {
+    opacity: 1;
+}
+
+.remarked-primary-widget__checkbox-text,
+.remarked-primary-widget__radio-text {
+    user-select: none;
+    /* font-family: Monserrat; */
+    font-size: 16px;
+    font-weight: 500;
+    color: #383838;
+}
+
+
+
+
+.remarked-primary-widget__pay-type-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.remarked-primary-widget__radio-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.remarked-primary-widget__radio-label input {
+    display: none;
+}
+
+/* внешний круг */
+.remarked-primary-widget__radio-box {
+    width: 15px;
+    height: 15px;
+    border: 2px solid #E30613;
+    border-radius: 50%;
+    position: relative;
+}
+
+/* внутренняя точка */
+.remarked-primary-widget__radio-box::after {
+    content: '';
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    background: #E30613;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.15s ease;
+}
+
+/* checked */
+.remarked-primary-widget__radio-label input:checked + .remarked-primary-widget__radio-box::after {
+    transform: translate(-50%, -50%) scale(1);
+}
 
 .remarked-primary-widget__next-step {
     background-color: #E30613;
@@ -244,4 +339,38 @@
 
 .remarked-primary-widget__next-step:hover {
     background-color: #87241d;
+}
+
+
+
+.tooltip {
+  position: fixed;
+  background: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 20000;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -6px;            /* вынос вниз */
+  transform: translateX(-50%);
+  
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #333; /* цвет как у тултипа */
+}
+
+.tooltip.show {
+  opacity: 1;
 }

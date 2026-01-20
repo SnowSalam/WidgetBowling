@@ -3,6 +3,8 @@ import { datepicker } from 'js-datepicker';
 import Api from './Api'
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
+import { Tooltips } from './Tooltips';
+import I18n from './I18n';
 
 export default class WidgetRenderer { // нужен ли session_id в данных брони?
     constructor(widgetWrap, options) {
@@ -33,7 +35,7 @@ export default class WidgetRenderer { // нужен ли session_id в данн�
 
         stepTwoRenderer.renderStepTwo();
 
-        this.initButtonNextHandler();
+        this.initButtonNextHandler(stepTwoRenderer);
         this.initButtonPrevHandler();
     }
     
@@ -80,22 +82,74 @@ export default class WidgetRenderer { // нужен ли session_id в данн�
         }
     }
     
-    initButtonNextHandler() {
+    initButtonNextHandler(stepTwoRenderer) {
         const buttonNext = this.container.querySelector('.remarked-primary-widget__next-step');
         const stepOne = this.container.querySelector('.remarked-primary-widget__step-one');
         const stepTwo = this.container.querySelector('.remarked-primary-widget__step-two');
+
+        const dateInputWrap = stepOne.querySelector('#remarked-primary-widget__date-input-wrap');
+        const guestsCountWrap = stepOne.querySelector('#remarked-primary-widget__guests-qty-wrap');
+        const lanesCountWrap = stepOne.querySelector('#remarked-primary-widget__lanes-qty-wrap');
+        const timeCountWrap = stepOne.querySelector('.remarked-primary-widget__times');
+        // const bampersCheckbox = stepOne.querySelector('#remarked-primary-widget__wish-bampers-input');
+        // const bampersCountInput = stepOne.querySelector('#remarked-primary-widget__lanesWithBumper-qty');
+        const payTypesWrap = stepOne.querySelector('.remarked-primary-widget__pay-type-wrap    ');
 
         const reserveInfo = stepTwo.querySelector('.remarked-primary-widget__reserve-info-wrap');
         const emailInputWrap = stepTwo.querySelector('#remarked-primary-widget__email-input-wrap');
         const agreementChecboxWrap = stepTwo.querySelector('#remarked-primary-widget__agreement-wrap');
 
         buttonNext.addEventListener('click', () => {
-            
+            let dateSelected = dateInputWrap.querySelector('input').value !== '';
+            let guestsSelected = guestsCountWrap.querySelector('input').value != 0;
+            let lanesSelected = lanesCountWrap.querySelector('input').value != 0;
+            let timeSelected = timeCountWrap.querySelector('.remarked-primary-widget__times--active') !== null;
+            // let bampersChecked = bampersCheckbox.checked;
+            let payTypeSelected = payTypesWrap.querySelector('input[name="remarked-widget_payType"]:checked') !== null;
 
+            let haveEmptyField = !(dateSelected && guestsSelected && lanesSelected && payTypeSelected /* && timeSelected */);
+            
+            if (haveEmptyField) {
+                Tooltips.showTooltip(buttonNext, I18n.t('ru-RU', 'errorNextButton'));
+                
+                if (!dateSelected) {
+                    dateInputWrap.querySelector('.remarked-primary-widget__block-title').classList.add('remarked-primary-widget__error-text');
+                }
+                if (!guestsSelected) {
+                    guestsCountWrap.querySelector('.remarked-primary-widget__block-title').classList.add('remarked-primary-widget__error-text');
+                }
+                if (!lanesSelected) {
+                    lanesCountWrap.querySelector('.remarked-primary-widget__block-title').classList.add('remarked-primary-widget__error-text');
+                }
+                if (!payTypeSelected) {
+                    payTypesWrap.querySelector('.remarked-primary-widget__block-title').classList.add('remarked-primary-widget__error-text');
+                }
+                // if (!timeSelected) {
+                //     timeCountWrap.querySelector('.remarked-primary-widget__block-title').classList.add('remarked-primary-widget__error-text');
+                // }
+
+                return;
+            }
+
+            let errorTexts = this.widget.querySelectorAll('.remarked-primary-widget__error-text');
+            if (errorTexts.length > 0) {
+                errorTexts.forEach(item => item.classList.remove('remarked-primary-widget__error-text'));
+            }
+
+            stepTwoRenderer.finishFieldsAndBlocks();
 
             stepOne.classList.remove('remarked-primary-widget__active-step');
             stepTwo.classList.add('remarked-primary-widget__active-step');
         });
+
+        // как проверить радио-инпут
+        // const checkedRadio = document.querySelector('input[name="plan"]:checked');
+
+        // if (checkedRadio) {
+        // console.log('Выбрано:', checkedRadio.value);
+        // } else {
+        // console.log('Ничего не выбрано');
+        // }
     }
 
     initButtonPrevHandler() {

@@ -18,14 +18,14 @@ export function normalizeQty(input, value, inputName, showTooltip = false) {
     if (normalized < min) {
         normalized = min;
         if (showTooltip) {
-        Tooltips.showQtyWarning(inputName, 'minus', 'min');
+            Tooltips.showQtyWarning(input, inputName, 'minus');
         }
     }
 
     if (normalized > max) {
         normalized = max;
         if (showTooltip) {
-        Tooltips.showQtyWarning(inputName, 'plus', 'max');
+            Tooltips.showQtyWarning(input, inputName, 'plus');
         }
     }
 

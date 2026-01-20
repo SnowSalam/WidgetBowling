@@ -102,6 +102,7 @@ export default class I18n {
             sumToPay: 'Сумма к оплате',
             minutes: 'минут',
             currencySymbol: '₽',
+            errorNextButton: 'Пожалуйста, заполните все обязательные поля, чтобы перейти к следующему шагу',
         },
         'en-EN': {
             headTitle: 'Booking',

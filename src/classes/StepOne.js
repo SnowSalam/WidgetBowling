@@ -46,7 +46,7 @@ export default class StepOne { // получить api
             customDays: I18n.t('ru-RU', 'daysArr'),
             disableYearOverlay: true,
             onSelect: (instance, date) => {
-                if (instance.dateSelected != undefined) {
+                if (date != undefined) {
                     // this.#updateTimeSlots(date/instance.dateSelected, State.guestsCount);
                     console.log('dateSelected = ' + instance.dateSelected); // узнать, в каком виде приходит дата и возможно replace
                     console.log('date = ' + date);
@@ -55,7 +55,7 @@ export default class StepOne { // получить api
                     console.log(instance);
                     // input.innerText = instance.dateSelected или date, возможно обработанные Replacer
 
-                    // State.dateSelected = /* instance.dateSelected или date - узнать из консоли */
+                    State.dateSelected = date;
                     State.startTimeSelected = null;
                     State.reserveDuration = 0;
                 } else {
@@ -65,7 +65,7 @@ export default class StepOne { // получить api
                         activeTimes.forEach(time => time.classList.remove('remarked-primary-widget__times--active'));
                     }
                 }
-                options.changeDateCalendar(this.container, date, options);
+                // options.changeDateCalendar(this.container, date, options);
             },
             disabler: this.options.customDisabledDate ?
                     this.options.customDisabledDate : date => this.options.disableWeekDay.includes(date.getDay()),
@@ -109,6 +109,7 @@ export default class StepOne { // получить api
     initStepOneEventListeners() {
         this.initGuestsQtyHandler();
         this.initLanesQtyHandler();
+        this.initWishCheckboxHandler();
         this.initBampersCheckboxHandler();
         this.initBampersQtyHandler();
         this.initTimeSlotsHandler();
@@ -139,7 +140,7 @@ export default class StepOne { // получить api
         console.log('renderDateInput')
         let dateInput = `
             <div class="remarked-primary-widget__date-input-wrap" id="remarked-primary-widget__date-input-wrap">
-                <label for="remarked-primary-widget__date-input-wrap">${I18n.t('ru-RU', 'labelDate')}</label>
+                <p class="remarked-primary-widget__block-title">${I18n.t('ru-RU', 'labelDate')}</p>
                 <input
                     type="text" readonly
                     name="remarked-primary-widget-date"
@@ -150,16 +151,14 @@ export default class StepOne { // получить api
 
         container.insertAdjacentHTML('beforeend', dateInput);
 
-        console.log(I18n.t('ru-RU', 'monthsArr'))
-        console.log(I18n.t('ru-RU', 'daysArr'))
         datepicker(container.querySelector('.remarked-primary-widget__date-select'), this.datepickerOptions);
     }
 
     renderNumberOfGuestsInput(container) {
         console.log('renderNumberOfGuestsInput')
         const qty = `
-            <div class="remarked-primary-widget__qty-wrap">
-                <label for="remarked-primary-widget__guests-qty">${I18n.t('ru-RU', 'labelCountGuest')}</label>
+            <div class="remarked-primary-widget__qty-wrap" id="remarked-primary-widget__guests-qty-wrap">
+                <p class="remarked-primary-widget__block-title">${I18n.t('ru-RU', 'labelCountGuest')}</p>
                 <div class="remarked-primary-widget__guests-qty-container"></div>
             </div>
         `;
@@ -197,8 +196,8 @@ export default class StepOne { // получить api
     renderNumberOfLanesInput(container) {
         console.log('renderNumberOfLanesInput')
         let lanesInput = `
-            <div class="remarked-primary-widget__qty-wrap">
-                <label for="remarked-primary-widget__lanes-qty">${I18n.t('ru-RU', 'labelCountLanes')}</label>
+            <div class="remarked-primary-widget__qty-wrap" id="remarked-primary-widget__lanes-qty-wrap">
+                <p class="remarked-primary-widget__block-title">${I18n.t('ru-RU', 'labelCountLanes')}</p>
                 <div class="remarked-primary-widget__lanes-qty-container">
 
                     <button class="remarked-primary-widget__qtyminus" id="remarked-primary-widget__lanes-qtyminus" aria-hidden="true">&minus;</button>
@@ -221,7 +220,7 @@ export default class StepOne { // получить api
         console.log('renderTimeSelection')
         const timesContainer = `
             <div class="remarked-primary-widget__times">
-                <label for="remarked-primary-widget__times-wrap">${I18n.t('ru-RU', 'labelTimeSelection')}</label>
+                <p class="remarked-primary-widget__block-title">${I18n.t('ru-RU', 'labelTimeSelection')}</p>
                 <input type="hidden" class="remarked-primary-widget__times-input" value="">
                 <div class="remarked-primary-widget__times-wrap"></div>
             </div>
@@ -265,24 +264,33 @@ export default class StepOne { // получить api
             <div class="remarked-primary-widget__wish-checkboxes">
 
                 <div class="remarked-primary-widget__wish-checkbox-wrap">
-                    <input type="checkbox" id="remarked-primary-widget__wish-lanesNear-input">
-                    <p class="remarked-primary-widget__wish-checkbox-text">${I18n.t('ru-RU', 'wishLanesNear')}</p>
+                    <label class="remarked-primary-widget__checkbox-label">
+                        <input type="checkbox" id="remarked-primary-widget__wish-lanesNear-input">
+                        <span class="remarked-primary-widget__checkbox-box"></span>
+                        <span class="remarked-primary-widget__checkbox-text">${I18n.t('ru-RU', 'wishLanesNear')}</span>
+                    </label>
                 </div>
 
                 <div class="remarked-primary-widget__wish-checkbox-wrap">
-                    <input type="checkbox" id="remarked-primary-widget__wish-specialEvent-input">
-                    <p class="remarked-primary-widget__wish-checkbox-text">${I18n.t('ru-RU', 'wishSpecialEvent')}</p>
+                    <label class="remarked-primary-widget__checkbox-label">
+                        <input type="checkbox" id="remarked-primary-widget__wish-specialEvent-input">
+                        <span class="remarked-primary-widget__checkbox-box"></span>
+                        <span class="remarked-primary-widget__checkbox-text">${I18n.t('ru-RU', 'wishSpecialEvent')}</span>
+                    </label>
                 </div>
 
                 <div class="remarked-primary-widget__wish-checkbox-wrap">
-                    <input type="checkbox" id="remarked-primary-widget__wish-bampers-input">
-                    <p class="remarked-primary-widget__wish-checkbox-text">${I18n.t('ru-RU', 'wishWithChildren')}</p>
+                    <label class="remarked-primary-widget__checkbox-label">
+                        <input type="checkbox" id="remarked-primary-widget__wish-bampers-input">
+                        <span class="remarked-primary-widget__checkbox-box"></span>
+                        <span class="remarked-primary-widget__checkbox-text">${I18n.t('ru-RU', 'wishWithChildren')}</span>
+                    </label>
                 </div>
 
             </div>
 
             <div class="remarked-primary-widget__qty-wrap remarked-primary-widget__lanesWithBumper-qty-wrap" style="display: none;">
-                <label for="remarked-primary-widget__lanesWithBumper-qty">${I18n.t('ru-RU', 'labelCountBampers')}</label>
+                <p class="remarked-primary-widget__block-title">${I18n.t('ru-RU', 'labelCountBampers')}</p>
 
                 <div class="remarked-primary-widget__lanesWithBumper-qty-container">
                     <button class="remarked-primary-widget__qtyminus" id="remarked-primary-widget__lanesWithBumper-qtyminus" aria-hidden="true">&minus;</button>
@@ -303,8 +311,8 @@ export default class StepOne { // получить api
     renderComment(container) { // посмотреть, как собирается comment_session_, доделать; сделать __not-required;
         console.log('renderComment')
         const commentContainer = `
-            <div class="remarked-primary-widget__comment">
-                <label for="comment_session_" class="__not-required">${I18n.t('ru-RU', 'labelComment')}</label>
+            <div class="remarked-primary-widget__comment ${this.options.commentRequired ? 'remarked-primary-widget__required' : ''}">
+                <p class="remarked-primary-widget__block-title">${I18n.t('ru-RU', 'labelComment')}</p>
                 <textarea id="comment_session_" maxlength="500" name="remarked-primary-widget__textarea" placeholder="${I18n.t('ru-RU', 'placeholderComment')}"></textarea>
             </div>
         `;
@@ -315,15 +323,17 @@ export default class StepOne { // получить api
     renderPayTypeSelection(container) {
         console.log('renderPayTypeSelection')
         const payTypeSelection = `
-            <div class="remarked-primary-widget__pay-type-wrap">
-                <label for="remarked-primary-widget__pay-type-wrap">${I18n.t('ru-RU', 'labelPayType')}</label>
+            <div class="remarked-primary-widget__pay-type-wrap remarked-primary-widget__required">
+                <p class="remarked-primary-widget__block-title">${I18n.t('ru-RU', 'labelPayType')}</p>
                 <label class="remarked-primary-widget__radio-label">
-                    <input type="radio" class="remarked-primary-widget__radio-input" name="remarked-widget_payType" value="payOnline" id="payOnline">
-                    ${I18n.t('ru-RU', 'payTypeOnline')}
+                    <input type="radio" class="remarked-primary-widget__radio-input" name="remarked-widget_payType" value="payOnline" id="remarked-primary-widget__payOnline">
+                    <span class="remarked-primary-widget__radio-box"></span>
+                    <span class="remarked-primary-widget__radio-text">${I18n.t('ru-RU', 'payTypeOnline')}</span>
                 </label>
                 <label class="remarked-primary-widget__radio-label">
-                    <input type="radio" class="remarked-primary-widget__radio-input" name="remarked-widget_payType" value="payOffline" id="payOffline">
-                    ${I18n.t('ru-RU', 'payTypeOffline')}
+                    <input type="radio" class="remarked-primary-widget__radio-input" name="remarked-widget_payType" value="payOffline" id="remarked-primary-widget__payOffline">
+                    <span class="remarked-primary-widget__radio-box"></span>
+                    <span class="remarked-primary-widget__radio-text">${I18n.t('ru-RU', 'payTypeOffline')}</span>
                 </label>
             </div>
         `;
@@ -377,20 +387,26 @@ export default class StepOne { // получить api
             }
 
             if (normalized === 1) {
+                lanesInput.value = 1;
                 lanesInput.min = 1;
                 lanesInput.max = 1;
             } else if (normalized > 6) {
                 const inputMin = Math.ceil(normalized / 6);
+
+                if (lanesInput.value < inputMin) lanesInput.value = inputMin;
+                if (lanesInput.value > normalized) lanesInput.value = normalized;
+
                 lanesInput.min = inputMin;
                 lanesInput.max = normalized;
             } else {
+                if (lanesInput.value > normalized) lanesInput.value = normalized;
                 lanesInput.min = 1;
                 lanesInput.max = normalized;
             }
 
             State.guestsCount = normalized;
 
-            this.#updateTimeSlots(State.dateSelected, normalized);
+            // this.#updateTimeSlots(State.dateSelected, normalized);
         });
 
         guestsInput.addEventListener('blur', () => {
@@ -403,13 +419,13 @@ export default class StepOne { // получить api
 
             State.guestsCount = normalized;
 
-            this.#updateTimeSlots(State.dateSelected, normalized);
+            // this.#updateTimeSlots(State.dateSelected, normalized);
         });
     }
 
     initLanesQtyHandler() {
         console.log('initLanesQtyHandler')
-        const lanesQtyWrap = this.container.querySelector('#remarked-primary-widget__lanes-qty-container');
+        const lanesQtyWrap = this.container.querySelector('.remarked-primary-widget__lanes-qty-container');
         const lanesInput = this.container.querySelector('#remarked-primary-widget__lanes-qty');
 
         const bampersInput = this.container.querySelector('#remarked-primary-widget__lanesWithBumper-qty');
@@ -424,10 +440,15 @@ export default class StepOne { // получить api
             const value = Number(lanesInput.value);
             const normalized = normalizeQty(lanesInput, value, 'lanes', false);
 
-            if (normalized !== null && normalized !== value) {
+            if (normalized === null) return;
+
+            if (normalized !== value) {
                 lanesInput.value = normalized;
-                bampersInput.max = normalized;
-                bampersInput.value = 1;
+            }
+
+            bampersInput.max = normalized;
+            if (bampersInput.value > normalized) {
+                bampersInput.value = normalized;
             }
 
             State.lanesCount = normalized;
@@ -441,13 +462,30 @@ export default class StepOne { // получить api
 
             if (normalized !== null && normalized !== value) {
                 lanesInput.value = normalized;
-                bampersInput.max = normalized;
-                bampersInput.value = 1;
+            }
+
+            bampersInput.max = normalized;
+            if (bampersInput.value > normalized) {
+                bampersInput.value = normalized;
             }
 
             State.lanesCount = normalized;
 
             //updateReservePrice
+        });
+    }
+
+    initWishCheckboxHandler() {
+        const checkboxLanesNear = this.container.querySelector('#remarked-primary-widget__wish-lanesNear-input');
+        const checkboxSpecialEvent = this.container.querySelector('#remarked-primary-widget__wish-specialEvent-input');
+
+        checkboxLanesNear.addEventListener('change', (e) => {
+            if (e.target.checked) State.isNearLines = true;
+            else State.isNearLines = false;
+        });
+        checkboxSpecialEvent.addEventListener('change', (e) => {
+            if (e.target.checked) State.isSpecialEvent = true;
+            else State.isSpecialEvent = false;
         });
     }
 
@@ -572,7 +610,7 @@ export default class StepOne { // получить api
 
     initPayTypeSelectionHandler() {
         console.log('initPayTypeSelectionHandler')
-        const payTypes = document.querySelectorAll('input[name="remarked-widget_payType"]');
+        const payTypes = this.container.querySelectorAll('input[name="remarked-widget_payType"]');
 
         payTypes.forEach(radio => {
             radio.addEventListener('change', function () {
