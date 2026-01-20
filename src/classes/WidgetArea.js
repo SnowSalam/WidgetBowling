@@ -1,33 +1,80 @@
+import I18n from './I18n';
 import WidgetRenderer from './WidgetRenderer';
 
 export default class WidgetArea {
     constructor(params) {
         this.options = this.prepareOptions(params);
+        this.widgetWrap = this.#createWidgetWrap();
 
-        this.renderer = new WidgetRenderer(this.options);
+        this.renderer = new WidgetRenderer(this.widgetWrap, this.options);
+        this.i18n = new I18n(this.options.lang);
     }
 
-    async init(pointId) {
+    async init() {
         try {
+            console.log('area init')
             this.renderer.renderWidget();
-            
+            this.initOpenOnButtonClick();
+            this.initWidgetClose();
         } catch (e) {
-            this.renderer.showError(e.message);
+            //this.renderer.showError(e.message);
+            console.log('error:')
+            console.log(e.message)
+            throw(e);
         } finally {
-            this.renderer.hideLoader();
+            WidgetRenderer.endPreloader();
         }
+    }
+
+    initOpenOnButtonClick() {
+        const widgetOpenButton = document.querySelectorAll(this.options.button);
+
+        widgetOpenButton.forEach(button => button.addEventListener('click',() => {
+                if (this.widgetWrap.classList.contains('remarked-primary-widget--none')) {
+                    this.widgetWrap.classList.remove('remarked-primary-widget--none');
+                }
+                this.widgetWrap.classList.add('remarked-primary-widget--active');
+                document.querySelector('html').style.overflowY = "hidden";
+            })
+        );
+    }
+
+    initWidgetClose() {
+        const closeButton = this.widgetWrap.querySelector('.remarked-primary-widget__close');
+
+        closeButton.addEventListener('click', this.#closeWidget());
+        this.widgetWrap.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remarked-primary-widget--active')) {
+                this.#closeWidget();
+            }
+        });
+    }
+
+    #closeWidget() {
+        this.widgetWrap.classList.add('remarked-primary-widget--none');
+        
+        setTimeout(() => {
+        this.widgetWrap.classList.remove('remarked-primary-widget--active');
+        // remarkedPrimaryWidgetReset();
+        }, 450);
+
+        document.querySelector('html').style.overflowY = "auto";
+    }
+
+    #createWidgetWrap() {
+        const wrap = document.createElement('div');
+
+        wrap.classList.add('remarked-primary-widget__wrap');
+        wrap.classList.add('remarked-primary-widget--none');
+        wrap.dataset.id = 'openReMarkedWidget-modal';
+
+        document.body.append(wrap);
+
+        return wrap;
     }
 
     prepareOptions(rawOptions) {
         let options = { // добавить labelRoomSelect, добавить translate
-            remarkedUrl: rawOptions.remarkedUrl ? rawOptions.remarkedUrl : 'https://app.remarked.ru/api/v1/ApiReservesWidget',
-            minDate: rawOptions.minDate ? {
-                    yyyy: rawOptions.minDate.split('-')[0],
-                    dd: rawOptions.minDate.split('-')[2],
-                    mm: rawOptions.minDate.split('-')[1] - 1,
-                    full: rawOptions.minDate,
-                    maxDate: rawOptions.maxDate ? new Date(rawOptions.maxDate).getTime() : getToday().maxDate,
-                } : getToday(rawOptions.maxDate),
             booking: rawOptions.booking,
             qtyMin: rawOptions.qtyMin ? rawOptions.qtyMin : 1,
             qtyMax: rawOptions.qtyMax ? rawOptions.qtyMax : 10,
@@ -39,94 +86,18 @@ export default class WidgetArea {
             dateNextHour: rawOptions.dateNextHour || rawOptions.dateNextHour === 0 ? rawOptions.dateNextHour : 3600000,
 
             showDisabledTime: rawOptions.showDisabledTime ? rawOptions.showDisabledTime : false,
-            lang: {
-            'ru-RU': {
-                headTitle: rawOptions.lang['ru-RU'].headTitle ? rawOptions.lang['ru-RU'].headTitle : 'Забронировать',
-                headText: rawOptions.lang['ru-RU'].headText ? rawOptions.lang['ru-RU'].headText : 'Какой ресторан вы хотели бы посетить?',
-                labelName: rawOptions.lang['ru-RU'].labelName ? rawOptions.lang['ru-RU'].labelName : 'На какое имя бронируем?',
-                placeholderName: rawOptions.lang['ru-RU'].placeholderName ? rawOptions.lang['ru-RU'].placeholderName : 'Имя',
-                labelLastName: rawOptions.lang['ru-RU'].labelLastName ? rawOptions.lang['ru-RU'].labelLastName : 'На какую фамилию бронируем?',
-                placeholderLastName: rawOptions.lang['ru-RU'].placeholderLastName ? rawOptions.lang['ru-RU'].placeholderLastName : 'Фамилия',
-                labelPhone: rawOptions.lang['ru-RU'].labelPhone ? rawOptions.lang['ru-RU'].labelPhone : 'Номер телефона',
-                placeholderPhone: rawOptions.lang['ru-RU'].placeholderPhone ? rawOptions.lang['ru-RU'].placeholderPhone : 'Телефон',
-                labelEmail: rawOptions.lang['ru-RU'].labelEmail ? rawOptions.lang['ru-RU'].labelEmail : 'Электронная почта',
-                placeholderEmail: rawOptions.lang['ru-RU'].placeholderEmail ? rawOptions.lang['ru-RU'].placeholderEmail : 'e-mail',
-                labelCountGuest: rawOptions.lang['ru-RU'].labelCountGuest ? rawOptions.lang['ru-RU'].labelCountGuest : 'Количество персон',
-                labelDate: rawOptions.lang['ru-RU'].labelDate ? rawOptions.lang['ru-RU'].labelDate : 'Дата посещения',
-                placeholderDate: rawOptions.lang['ru-RU'].placeholderDate ? rawOptions.lang['ru-RU'].placeholderDate : 'Выберите дату',
-                labelTime: rawOptions.lang['ru-RU'].labelTime ? rawOptions.lang['ru-RU'].labelTime : 'Свободное время',
-                noticeTime: rawOptions.lang['ru-RU'].noticeTime ? rawOptions.lang['ru-RU'].noticeTime : 'Выберите время',
-                labelComment: rawOptions.lang['ru-RU'].labelComment ? rawOptions.lang['ru-RU'].labelComment : 'Комментарий',
-                placeholderComment: rawOptions.lang['ru-RU'].placeholderComment ? rawOptions.lang['ru-RU'].placeholderComment : 'Текст вашего сообщения',
-                textPolicy: rawOptions.lang['ru-RU'].textPolicy ? rawOptions.lang['ru-RU'].textPolicy : 'Согласен(-сна) на обработку персональных данных и с',
-                textLinkPolicy: rawOptions.lang['ru-RU'].textLinkPolicy ? rawOptions.lang['ru-RU'].textLinkPolicy : 'пользовательским соглашением.',
-                thanksTitle: rawOptions.lang['ru-RU'].thanksTitle ? rawOptions.lang['ru-RU'].thanksTitle : 'Спасибо',
-                thanksText: rawOptions.lang['ru-RU'].thanksText ? rawOptions.lang['ru-RU'].thanksText : 'Ваша бронь успешна!<br> Ресторан свяжется с вами и подтвердит детали резерва.',
-                textSubmit: rawOptions.lang['ru-RU'].textSubmit ? rawOptions.lang['ru-RU'].textSubmit : 'Забронировать',
-                tags: rawOptions.lang['ru-RU'].tags ? rawOptions.lang['ru-RU'].tags : 'Теги',
-                eventTags: rawOptions.lang['ru-RU'].eventTags ? rawOptions.lang['ru-RU'].eventTags : 'Событие',
-                labelBirthday: rawOptions.lang['ru-RU'].labelBirthday ? rawOptions.lang['ru-RU'].labelBirthday : 'Дата рождения',
-                placeholderBirthday: rawOptions.lang['ru-RU'].placeholderBirthday ? rawOptions.lang['ru-RU'].placeholderBirthday : 'Укажите дату рождения',
-                bookingNewOption: rawOptions.lang['ru-RU'].bookingNewOption ? rawOptions.lang['ru-RU'].bookingNewOption : 'Выберите ресторан',
-                extraPolicyCheckboxText: rawOptions.lang['ru-RU'].extraPolicyCheckboxText ? rawOptions.lang['ru-RU'].extraPolicyCheckboxText : 'С правилами посещения',
-                extraPolicyCheckboxLink: rawOptions.lang['ru-RU'].extraPolicyCheckboxLink ? rawOptions.lang['ru-RU'].extraPolicyCheckboxLink : 'ознакомлен.',
-                subcsriptionCheckboxText: rawOptions.lang['ru-RU'].subcsriptionCheckboxText ? rawOptions.lang['ru-RU'].subcsriptionCheckboxText : 'Согласен(-сна) на получение рекламных рассылок, с',
-                subcsriptionCheckboxLink: rawOptions.lang['ru-RU'].subcsriptionCheckboxLink ? rawOptions.lang['ru-RU'].subcsriptionCheckboxLink : 'правилами ознакомлен(a).',
-                labelchildren: rawOptions.lang['ru-RU'].labelchildren ? rawOptions.lang['ru-RU'].labelchildren : 'Количество детей',
-                labelAddSelect: rawOptions.lang['ru-RU'].labelAddSelect ? rawOptions.lang['ru-RU'].labelAddSelect : 'Выберите зал',
-                errorName: rawOptions.lang['ru-RU'].errorName ? rawOptions.lang['ru-RU'].errorName : 'Не заполнено поле Имя',
-                errorLastName: rawOptions.lang['ru-RU'].errorLastName ? rawOptions.lang['ru-RU'].errorLastName : 'Не заполнено поле Фамилия',
-                errorPhone: rawOptions.lang['ru-RU'].errorPhone ? rawOptions.lang['ru-RU'].errorPhone : 'Не заполнено поле Телефон',
-                errorBirthday: rawOptions.lang['ru-RU'].errorBirthday ? rawOptions.lang['ru-RU'].errorBirthday : 'Не заполнено поле День рождения',
-                errorEmail: rawOptions.lang['ru-RU'].errorEmail ? rawOptions.lang['ru-RU'].errorEmail : 'Не заполнено поле Email',
-                errorDate: rawOptions.lang['ru-RU'].errorDate ? rawOptions.lang['ru-RU'].errorDate : 'Не заполнено поле Дата',
-            },
-            'en-US': {
-                headTitle: rawOptions.lang['en-US'].headTitle ? rawOptions.lang['en-US'].headTitle : 'Booking',
-                headText: rawOptions.lang['en-US'].headText ? rawOptions.lang['en-US'].headText : 'Which restaurant would you like to visit?',
-                labelName: rawOptions.lang['en-US'].labelName ? rawOptions.lang['en-US'].labelName : 'What is the name for the booking?',
-                placeholderName: rawOptions.lang['en-US'].placeholderName ? rawOptions.lang['en-US'].placeholderName : 'Name',
-                labelLastName: rawOptions.lang['en-US'].labelLastName ? rawOptions.lang['en-US'].labelLastName : 'What is the surname for the booking?',
-                placeholderLastName: rawOptions.lang['en-US'].placeholderLastName ? rawOptions.lang['en-US'].placeholderLastName : 'Surname',
-                labelPhone: rawOptions.lang['en-US'].labelPhone ? rawOptions.lang['en-US'].labelPhone : 'Phone number',
-                placeholderPhone: rawOptions.lang['en-US'].placeholderPhone ? rawOptions.lang['en-US'].placeholderPhone : 'Phone',
-                labelEmail: rawOptions.lang['en-US'].labelEmail ? rawOptions.lang['en-US'].labelEmail : 'E-mail',
-                placeholderEmail: rawOptions.lang['en-US'].placeholderEmail ? rawOptions.lang['en-US'].placeholderEmail : 'e-mail',
-                labelCountGuest: rawOptions.lang['en-US'].labelCountGuest ? rawOptions.lang['en-US'].labelCountGuest : 'Number of guests',
-                labelDate: rawOptions.lang['en-US'].labelDate ? rawOptions.lang['en-US'].labelDate : 'Date of visit',
-                placeholderDate: rawOptions.lang['en-US'].placeholderDate ? rawOptions.lang['en-US'].placeholderDate : 'Pick a date',
-                labelTime: rawOptions.lang['en-US'].labelTime ? rawOptions.lang['en-US'].labelTime : 'Free time',
-                noticeTime: rawOptions.lang['en-US'].noticeTime ? rawOptions.lang['en-US'].noticeTime : 'Pick a time',
-                labelComment: rawOptions.lang['en-US'].labelComment ? rawOptions.lang['en-US'].labelComment : 'Comment',
-                placeholderComment: rawOptions.lang['en-US'].placeholderComment ? rawOptions.lang['en-US'].placeholderComment : 'The text of your message',
-                textPolicy: rawOptions.lang['en-US'].textPolicy ? rawOptions.lang['en-US'].textPolicy : 'I agree with the processing of personal data and with ',
-                textLinkPolicy: rawOptions.lang['en-US'].textLinkPolicy ? rawOptions.lang['en-US'].textLinkPolicy : 'the user agreement.',
-                thanksTitle: rawOptions.lang['en-US'].thanksTitle ? rawOptions.lang['en-US'].thanksTitle : 'Thanks',
-                thanksText: rawOptions.lang['en-US'].thanksText ? rawOptions.lang['en-US'].thanksText : 'We will contact you soon <br> to get the details of your visit',
-                textSubmit: rawOptions.lang['en-US'].textSubmit ? rawOptions.lang['en-US'].textSubmit : 'Book',
-                tags: rawOptions.lang['en-US'].tags ? rawOptions.lang['en-US'].tags : 'Tags',
-                eventTags: rawOptions.lang['en-US'].eventTags ? rawOptions.lang['en-US'].eventTags : 'Event',
-                labelBirthday: rawOptions.lang['en-US'].labelBirthday ? rawOptions.lang['en-US'].labelBirthday : 'Date of birth',
-                placeholderBirthday: rawOptions.lang['en-US'].placeholderBirthday ? rawOptions.lang['en-US'].placeholderBirthday : 'Date of birth',
-                extraPolicyCheckboxText: rawOptions.lang['en-US'].extraPolicyCheckboxText ? rawOptions.lang['en-US'].extraPolicyCheckboxText : 'I agree to show the documents confirming the age when ordering',
-                extraPolicyCheckboxLink: rawOptions.lang['en-US'].extraPolicyCheckboxLink ? rawOptions.lang['en-US'].extraPolicyCheckboxLink : 'alcoholic beverages.',
-                subcsriptionCheckboxText: rawOptions.lang['ru-RU'].subcsriptionCheckboxText ? rawOptions.lang['ru-RU'].subcsriptionCheckboxText : 'I agree to receive advertising mailings and',
-                subcsriptionCheckboxLink: rawOptions.lang['ru-RU'].subcsriptionCheckboxLink ? rawOptions.lang['ru-RU'].subcsriptionCheckboxLink : ' have read the rules.',
-                labelchildren: rawOptions.lang['en-US'].labelchildren ? rawOptions.lang['en-US'].labelchildren : 'Number of children',
-                labelAddSelect: rawOptions.lang['en-US'].labelAddSelect ? rawOptions.lang['en-US'].labelAddSelect : 'Select hall',
-                errorName: rawOptions.lang['en-US'].errorName ? rawOptions.lang['en-US'].errorName : 'The Name field is not filled in',
-                errorLastName: rawOptions.lang['en-US'].errorLastName ? rawOptions.lang['en-US'].errorLastName : 'The Last Name field is not filled in',
-                errorPhone: rawOptions.lang['en-US'].errorPhone ? rawOptions.lang['en-US'].errorPhone : 'The Phone field is not filled in',
-                errorBirthday: rawOptions.lang['en-US'].errorBirthday ? rawOptions.lang['en-US'].errorBirthday : 'The Birthday field is not filled in',
-                errorEmail: rawOptions.lang['en-US'].errorEmail ? rawOptions.lang['en-US'].errorEmail : 'Email field is not filled in',
-                errorDate: rawOptions.lang['en-US'].errorDate ? rawOptions.lang['en-US'].errorDate : 'The Date field is not filled in',
-            },
-            },
-            language: rawOptions.addLang ? rawOptions.addLang : {},
+            
             commentRequired: rawOptions.commentRequired ? rawOptions.commentRequired : false,
             lastNameNotRequired: rawOptions.lastNameNotRequired ? rawOptions.lastNameNotRequired : false,
             guestCountSelect: rawOptions.guestCountSelect ? rawOptions.guestCountSelect : false,
             session_id: `session_${Date.now()}_${Math.random()}`,
+
+            lang: rawOptions.lang,
+            lanesCountCanType: rawOptions.lanesCountCanType ? rawOptions.lanesCountCanType : false,
+            lanesWithBumperCanType: rawOptions.lanesWithBumperCanType ? rawOptions.lanesWithBumperCanType : false,
+            disableWeekDay: rawOptions.disableWeekDay ? rawOptions.disableWeekDay : [],
+            policy: 'Я даю <a href="#">Согласие</a> на обработку моих персональных данных в соответствии с <a href="#">Политикой</a>',
+            agreement: 'Я принимаю условия <a href="#">Договора оферты</a>'
         };
 
         return options; // проверить, нужна ли ещё обработка

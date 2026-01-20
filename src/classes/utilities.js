@@ -95,3 +95,20 @@ export function calculateReservePrice(date, times, lanesNum) {
 
     return reserveSum;
 }
+
+function timeToMinutes(time) {
+  const [h, m] = time.split(':').map(Number);
+  let minutes = h * 60 + m;
+
+  // всё, что с 00:00 до 02:00 — считаем следующим днём
+  if (h < 10) {
+    minutes += 24 * 60;
+  }
+
+  return minutes;
+}
+
+// принимает две строки формата "10:00"
+export function compareTimes(a, b) {
+  return timeToMinutes(a) - timeToMinutes(b);
+}
